@@ -1,6 +1,8 @@
 package Model.Engine;
 
 @FunctionalInterface
-public interface Event {
-    void execute();
+public interface Event extends Runnable {
+
+    @Override
+    void run();
 }

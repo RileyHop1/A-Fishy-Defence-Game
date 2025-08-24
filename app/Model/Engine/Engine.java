@@ -33,7 +33,7 @@ final public class Engine {
     public static void processEvents() {
 
         for(Event e : myEventQueue) {
-            e.execute();
+            e.run();
         }
         myEventQueue.clear();
 
