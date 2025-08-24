@@ -1,4 +1,11 @@
 package Model.Entities;
 
-public class Placeable {
+
+public interface Placeable  {
+
+
+    void place();
+
+    boolean isPlaced();
+
 }
