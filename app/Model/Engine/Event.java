@@ -1,4 +1,6 @@
 package Model.Engine;
 
-public class Event {
+@FunctionalInterface
+public interface Event {
+    void execute();
 }
