@@ -5,13 +5,16 @@ public class Entity {
     /**This, the x cord of the top left corner.*/
    private float myXPos;
     /**This, the y cord of the top left corner.*/
-   private float myYpos;
+   private float myYPos;
    /**This is the height of the entity.*/
    private float myHeight;
    /**This is the width of the entity.*/
    private float myWidth;
    /**This is the name of the entity. */
    private String myName;
+    /**This is the element of the entity.*/
+    private Type myType;
+
 
 
     public float getMyXPos() {
@@ -22,12 +25,12 @@ public class Entity {
         this.myXPos = myXPos;
     }
 
-    public float getMyYpos() {
-        return myYpos;
+    public float getMyYPos() {
+        return myYPos;
     }
 
-    public void setMyYpos(final float myYpos) {
-        this.myYpos = myYpos;
+    public void setMyYPos(final float myYPos) {
+        this.myYPos = myYPos;
     }
 
     public String getMyName() {
@@ -52,5 +55,13 @@ public class Entity {
 
     public void setMyWidth(final float myWidth) {
         this.myWidth = myWidth;
+    }
+
+    public Type getMyType() {
+        return myType;
+    }
+
+    public void setMyType(Type myType) {
+        this.myType = myType;
     }
 }
