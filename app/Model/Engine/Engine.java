@@ -1,6 +1,10 @@
 package Model.Engine;
 
 
+import Model.Entities.Enemies.Enemy;
+import Model.Entities.Towers.Tower;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -8,8 +12,13 @@ final public class Engine {
 
     /**This is the queue of events that the entities want, to take.*/
     private static final Queue<Event> myEventQueue = new LinkedList<>();
-
+    /**This is the currently active, enemies.*/
+    private static final ArrayList<Enemy> myEnemies = new ArrayList<>();
+    /**This is the currently active, towers.*/
+    private static final ArrayList<Tower> myTowers = new ArrayList<>();
+    /**This is the singleton instance of the engine*/
     private static final Engine myInstance = new Engine();
+
 
     /**
      * Private constructor to enforce singleton.
@@ -17,7 +26,6 @@ final public class Engine {
     private Engine() {
         super();
     }
-
 
     /**
      * This is how you get the instance of the Engine.

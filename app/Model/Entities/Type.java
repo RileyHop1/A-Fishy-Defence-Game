@@ -2,10 +2,10 @@ package Model.Entities;
 
 public enum Type {
     ICE,
-    Rock,
+    ROCK,
     FIRE,
     AIR,
-    Sand,
-    Coral
+    SAND,
+    CORAL
 
 }
