@@ -8,62 +8,82 @@ import java.util.ArrayList;
 public class Enemy extends Entity {
 
     private int myHealth;
-    private int mySpeed;
+    private float mySpeed;
     /**This is the terrain type the enemy can move through.*/
     private ArrayList<Type> myVaildPath = new ArrayList<>();
 
 
     /**
-     * @param theHealth This is the health of the enemy.
-     * @param theSpeed This is the speed of the enemy.
-     * @param theType This is the element of the enemy,
-     *                different element have different strengths
-     *                and weaknesses and paths they can take.
-     * @param theName This is the name of the enemy.
+     * This constructs, a new enemy.
      */
-    private Enemy(final int theHealth, final int theSpeed
-            , final Type theType, final String theName) {
+    private Enemy() {
         super();
-
-        myHealth = theHealth;
-        mySpeed = theSpeed;
-        this.setMyType(theType);
 
     }
 
 
     /**
+     * This constructs a new enemy relative to the difficulty and
+     * the round. It also makes it depend on the type.
      * @param theType
      * @param theDif
      * @param theRound
-     * @return
+     * @return The newly constructed Enemy.
      */
-    public Enemy enemyCreator(final Type theType, final int theDif
+    public static Enemy enemyCreator(final Type theType, final int theDif
             , final int theRound) {
+
+        //May need some tweaks.
+        int difficultyMultiplier = theDif * theRound;
+
+        Enemy enemy = new Enemy();
+
+        //Coral is the default type, and the sand type should never be given to a monster.
         switch (theType) {
             case Type.ICE:
-                myVaildPath.add(Type.ICE);
+                enemy.myVaildPath.add(Type.CORAL);
+                enemy.myVaildPath.add(Type.ICE);
+                enemy.setMyHealth(theType.getHEALTH()
+                        * difficultyMultiplier);
+                enemy.setMySpeed(theType.getSPEED()
+                        * difficultyMultiplier);
                 break;
             case Type.ROCK:
-                myVaildPath.add(Type.ROCK);
+                enemy.myVaildPath.add(Type.CORAL);
+                enemy.myVaildPath.add(Type.ROCK);
+                enemy.setMyHealth(theType.getHEALTH()
+                        * difficultyMultiplier);
+                enemy.setMySpeed(theType.getSPEED()
+                        * difficultyMultiplier);
                 break;
             case Type.FIRE:
-                myVaildPath.add(Type.FIRE);
+                enemy.myVaildPath.add(Type.CORAL);
+                enemy.myVaildPath.add(Type.FIRE);
+                enemy.setMyHealth(theType.getHEALTH()
+                        * difficultyMultiplier);
+                enemy.setMySpeed(theType.getSPEED()
+                        * difficultyMultiplier);
                 break;
             case Type.AIR:
-                myVaildPath.add(Type.AIR);
+                enemy.myVaildPath.add(Type.CORAL);
+                enemy.myVaildPath.add(Type.AIR);
+                enemy.setMyHealth(theType.getHEALTH()
+                        * difficultyMultiplier);
+                enemy.setMySpeed(theType.getSPEED()
+                        * difficultyMultiplier);
                 break;
-            case Type.SAND:
-                myVaildPath.add(Type.SAND);
+            default:
+                enemy.myVaildPath.add(Type.CORAL);
+                enemy.setMyHealth(Type.CORAL.getHEALTH()
+                        * difficultyMultiplier);
+                enemy.setMySpeed(Type.CORAL.getSPEED()
+                        * difficultyMultiplier);
                 break;
-            case Type.CORAL:
-                myVaildPath.add(Type.CORAL);
-                break;
-
         }
 
-        //this is a placeholder.
-        return new Enemy(0,0,Type.AIR,"1");
+
+        //Returns the new enemy
+        return enemy;
 
     }
 
@@ -75,11 +95,11 @@ public class Enemy extends Entity {
         this.myHealth = myHealth;
     }
 
-    public int getMySpeed() {
+    public float getMySpeed() {
         return mySpeed;
     }
 
-    public void setMySpeed(final int mySpeed) {
+    public void setMySpeed(final float mySpeed) {
         this.mySpeed = mySpeed;
     }
 
