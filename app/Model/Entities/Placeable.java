@@ -4,8 +4,8 @@ package Model.Entities;
 public interface Placeable  {
 
 
-    void place();
-
     boolean isPlaced();
+
+    void setPlaced(final boolean thePlaced);
 
 }

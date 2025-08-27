@@ -25,9 +25,9 @@ public class Enemy extends Entity {
     /**
      * This constructs a new enemy relative to the difficulty and
      * the round. It also makes it depend on the type.
-     * @param theType
-     * @param theDif
-     * @param theRound
+     * @param theType this is the type of the hook.
+     * @param theDif this is the difficulty setting.
+     * @param theRound this is the round the player is on.
      * @return The newly constructed Enemy.
      */
     public static Enemy enemyCreator(final Type theType, final int theDif
@@ -108,6 +108,7 @@ public class Enemy extends Entity {
      */
     public static void move() {
 
+        //TODO: implement the level.
     }
 
 
