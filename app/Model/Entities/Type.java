@@ -21,6 +21,7 @@ public enum Type {
     private static final String FIRENAME = "Fire";
     private static final String AIRNAME = "Air";
     private static final String CORALNAME = "Coral";
+    private static final String BADPATH = "Bad path";
 
 
 
@@ -59,5 +60,9 @@ public enum Type {
 
     public static String getCORALNAME() {
         return CORALNAME;
+    }
+
+    public static String getBadpath() {
+    return BADPATH;
     }
 }

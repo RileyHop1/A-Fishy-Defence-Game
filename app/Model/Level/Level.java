@@ -1,11 +1,9 @@
 package Model.Level;
 
-import Model.Entities.Terrain.Terrain;
 import Model.Entities.Type;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Level {
@@ -36,8 +34,12 @@ public class Level {
      * This generates a new board to player on.
      */
     public static void generateBoard() {
+        myBoard = new String[myMapSize][myMapSize];
+        initialBoard();
         setRandomStart();
         setRandomEnd();
+        generatePath(myEndPos, Type.CORAL);
+        initialBoard();
 
 
 
@@ -103,83 +105,146 @@ public class Level {
         }
     }
 
-    private static void generatePath(final int[] theStartingPos) {
+    /**
+     * This generates a random path from a given position.
+     * @param theStartingPos This is the starting position as [x, y] of the randomly
+     *                       Generated path, it will find a path from
+     *                       this position to the end point.
+     * @param theType This is the type of the path.
+     * @return A truthy value on if the path was able to be generated.
+     */
+    private static boolean generatePath(final int[] theStartingPos, final Type theType) {
 
         if (theStartingPos.length != 2) {
             throw new RuntimeException("The starting pos must " +
                     "be an array of length 2");
         }
 
+        //This will hold the previous steps taken in case of back tracking.
         ArrayList<int[]> pathTaken = new ArrayList<>();
 
         //grabs the current position.
         int[] currentPos = Arrays.copyOf(theStartingPos,theStartingPos.length);
 
 
+        int steps = 0;
+        //Hard caps the amount of loops.
+        int maxSteps = (int) Math.pow(myMapSize, 2);
+
+
 
         while (currentPos[0] != myEndPos[0]
-                && currentPos[1] != myEndPos[1]) {
+                || currentPos[1] != myEndPos[1]) {
+
+            //Safeguard against infinite loops.
+            if (steps > maxSteps) {
+                return false;
+            }
+
+            //increases the steps taken.
+            steps++;
 
             //This will randomly choose a direction as noise 1/5th and also check if its sand.
-            if (myRand.nextInt(20) == 0 && currentPos[0] + 1 < myMapSize &&
-                    Objects.equals(myBoard[currentPos[0] + 1]
-                            [currentPos[1]], Type.getSANDNAME())) {
+            if (myRand.nextInt(20) == 0 && currentPos[0] + 1 < myMapSize
+                    && myBoard[currentPos[0] + 1][currentPos[1]] == null) {
                 currentPos[0]++;
                 pathTaken.add(Arrays.copyOf(currentPos, currentPos.length));
                 continue;
-            } else if (myRand.nextInt(20) == 0 && currentPos[1] + 1 < myMapSize &&
-                    Objects.equals(myBoard[currentPos[0]]
-                            [currentPos[1] + 1], Type.getSANDNAME())) {
+            } else if (myRand.nextInt(20) == 0 && currentPos[1] + 1 < myMapSize
+                    && myBoard[currentPos[0]][currentPos[1] + 1] == null) {
                 currentPos[1]++;
                 pathTaken.add(Arrays.copyOf(currentPos, currentPos.length));
                 continue;
-            } else if (myRand.nextInt(20) == 0 && currentPos[0] - 1 >= 0 &&
-                    Objects.equals(myBoard[currentPos[0] - 1]
-                            [currentPos[1]], Type.getSANDNAME())) {
+            } else if (myRand.nextInt(20) == 0 && currentPos[0] - 1 >= 0
+                    && myBoard[currentPos[0] - 1][currentPos[1]] == null) {
                 currentPos[0]--;
                 pathTaken.add(Arrays.copyOf(currentPos, currentPos.length));
                 continue;
-            } else if (myRand.nextInt(20) == 0 && currentPos[1] - 1 >= 0 &&
-                    Objects.equals(myBoard[currentPos[0]]
-                            [currentPos[1] - 1], Type.getSANDNAME())) {
+            } else if (myRand.nextInt(20) == 0 && currentPos[1] - 1 >= 0
+                    && myBoard[currentPos[0]][currentPos[1] - 1] == null) {
                 currentPos[1]--;
                 pathTaken.add(Arrays.copyOf(currentPos, currentPos.length));
                 continue;
             }
 
-            if (currentPos[0] < myEndPos[0] &&
-                    Objects.equals(myBoard[currentPos[0]]
-                            [currentPos[1] - 1], Type.getSANDNAME())) {
-
+            //This is the typical greedy version of pathfinding.
+            if (currentPos[0] < myEndPos[0]
+                    && myBoard[currentPos[0] + 1][currentPos[1]] == null) {
                 currentPos[0]++;
-
-            } else if (currentPos[0] > myEndPos[0] &&
-                    Objects.equals(myBoard[currentPos[0]]
-                            [currentPos[1] - 1], Type.getSANDNAME())) {
-
+            } else if (currentPos[0] > myEndPos[0]
+                    && myBoard[currentPos[0] - 1][currentPos[1]] == null) {
                 currentPos[0]--;
-            } else if (currentPos[1] < myEndPos[1] &&
-                    Objects.equals(myBoard[currentPos[0]]
-                            [currentPos[1] - 1], Type.getSANDNAME())) {
-
+            } else if (currentPos[1] < myEndPos[1]
+                    && myBoard[currentPos[0]][currentPos[1] + 1] == null) {
                 currentPos[1]++;
-            } else if (currentPos[1] > myEndPos[1] &&
-                    Objects.equals(myBoard[currentPos[0]]
-                            [currentPos[1] - 1], Type.getSANDNAME())) {
-
+            } else if (currentPos[1] > myEndPos[1]
+                    && myBoard[currentPos[0]][currentPos[1] - 1] == null) {
                 currentPos[1]--;
             } else {
+                //This will stop retreads of bad paths.
+                myBoard[currentPos[0]][currentPos[1]] = Type.getBadpath();
+                pathTaken.remove(pathTaken.size() - 1);
+
                 if (!pathTaken.isEmpty()) {
-                    pathTaken.remove(pathTaken.size() - 1);
-                    Arrays.copyOf(pathTaken.get(pathTaken.size() - 1), pathTaken.get(pathTaken.size() - 1).length);
+
+                    int[] lastPos = pathTaken.get(pathTaken.size() - 1);
+                    currentPos = Arrays.copyOf(lastPos, lastPos.length);
+
+                } else {
+                    currentPos = Arrays.copyOf(theStartingPos,theStartingPos.length);
                 }
                 continue;
             }
 
             pathTaken.add(Arrays.copyOf(currentPos, currentPos.length));
 
+
+        }
+        applyPath(pathTaken, theType);
+        return true;
+
+    }
+
+
+    /**
+     * This applies the path take to the board.
+     * @param thePath The path taken to the end point.
+     * @param theType the type of the path.
+     */
+    private static void applyPath(final ArrayList<int[]> thePath, final Type theType) {
+
+        //instantly break if the path is empty.
+        if (thePath.isEmpty()) {
+            return;
         }
 
+        for (int[] coord : thePath) {
+            if (myBoard[coord[0]][coord[1]] == Type.getSANDNAME()
+                    || myBoard[coord[0]][coord[1]] == Type.getBadpath()) {
+                myBoard[coord[0]][coord[1]] = switch (theType) {
+                    case ICE -> Type.getICENAME();
+                    case ROCK -> Type.getROCKNAME();
+                    case FIRE -> Type.getFIRENAME();
+                    case AIR -> Type.getAIRNAME();
+                    default -> Type.getCORALNAME();
+                };
+            }
+        }
+    }
+
+
+    /**
+     * This fills the board with sand tiles.
+     */
+    private static void initialBoard() {
+
+        for (int i = 0; i < myBoard.length; i++) {
+            for (int j = 0; j < myBoard[i].length; j++) {
+                if (myBoard[i][j] == null || myBoard[i][j] == Type.getBadpath()) {
+                    myBoard[i][j] = Type.getSANDNAME();
+                }
+            }
+        }
     }
 
 
