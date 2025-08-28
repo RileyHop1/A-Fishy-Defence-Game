@@ -3,6 +3,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import static Model.Level.Level.generateBoard;
+
 
 public class Main extends Application {
 
@@ -12,7 +14,9 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        launch(args);
+        System.out.println("Board");
+        generateBoard();
+        //launch(args);
     }
 
     @Override

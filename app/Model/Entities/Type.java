@@ -21,9 +21,6 @@ public enum Type {
     private static final String FIRENAME = "Fire";
     private static final String AIRNAME = "Air";
     private static final String CORALNAME = "Coral";
-    private static final String BADPATH = "Bad path";
-
-
 
     Type(final int theHealth, final float theSpeed) {
         this.HEALTH = theHealth;
@@ -62,7 +59,4 @@ public enum Type {
         return CORALNAME;
     }
 
-    public static String getBadpath() {
-    return BADPATH;
-    }
 }
