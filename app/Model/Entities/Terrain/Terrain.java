@@ -9,6 +9,7 @@ public class Terrain extends Entity implements Placeable {
     /**This is if the piece of terrain is already placed.*/
     private boolean myPlaced = false;
 
+
     @Override
     public boolean isPlaced() {
 
