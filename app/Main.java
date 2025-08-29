@@ -16,14 +16,14 @@ public class Main extends Application {
     public static void main(String[] args) {
         System.out.println("Board");
         generateBoard();
-        //launch(args);
+        launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
         Label label = new Label("Hello, JavaFX!");
         Scene scene = new Scene(label, 300, 200);
-        primaryStage.setTitle("JavaFX Window");
+        primaryStage.setTitle("Fishy defence game.");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
