@@ -22,7 +22,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         Label label = new Label("Hello, JavaFX!");
-        Scene scene = new Scene(label, 300, 200);
+        Scene scene = new Scene(label, 1000, 1000);
         primaryStage.setTitle("Fishy defence game.");
         primaryStage.setScene(scene);
         primaryStage.show();
