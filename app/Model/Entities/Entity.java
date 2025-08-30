@@ -1,5 +1,7 @@
 package Model.Entities;
 
+import Model.Entities.Enemies.EnemyType;
+
 public class Entity {
 
     /**This, the x cord of the top left corner.*/
@@ -13,7 +15,7 @@ public class Entity {
    /**This is the name of the entity. */
    private String myName;
     /**This is the element of the entity.*/
-    private Type myType;
+    private EnemyType myEnemyType;
 
 
 
@@ -57,11 +59,11 @@ public class Entity {
         this.myWidth = myWidth;
     }
 
-    public Type getMyType() {
-        return myType;
+    public EnemyType getMyType() {
+        return myEnemyType;
     }
 
-    public void setMyType(Type myType) {
-        this.myType = myType;
+    public void setMyType(EnemyType myEnemyType) {
+        this.myEnemyType = myEnemyType;
     }
 }
