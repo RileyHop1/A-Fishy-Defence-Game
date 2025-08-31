@@ -22,9 +22,10 @@ public class Tower extends Entity implements Placeable {
     private EnemyType myAdvantage;
 
 
-
-
-
+    /**
+     * @param theTowerType This is the type of tower, that is being created.
+     * @return The created tower.
+     */
     public static Tower towerBuilder(final TowerType theTowerType) {
         Tower tower = new Tower();
 
